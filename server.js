@@ -57,6 +57,8 @@ app.post('/user/loginThirdParty', (req, res) => {
 
 app.post('/user/logout', (req, res) => {
     try {
+        delete req.session.user
+        req.session.authenticated = false;
         req.session.destroy((err) => {
             if (err) {
                 console.log(err)
@@ -75,8 +77,7 @@ app.post('/user/logout', (req, res) => {
         res.status(500).send({message: "Error logging out"})
 
     }
-    delete req.session.user
-    req.session.authenticated = false;
+
 })
 
 connectDB().then(() => {
